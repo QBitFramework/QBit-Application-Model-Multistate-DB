@@ -19,7 +19,11 @@ __PACKAGE__->abstract_methods(
 sub check_action {
     my ($self, $object, $action) = @_;
 
-    $object = $self->_get_object_fields($object, ['multistate']);
+    my @actions_depends_on_db_fields = do {
+        my $fields = $self->_get_fields_obj(['actions'])->get_fields();
+        grep {$fields->{$_}->{'db'} && $_ ne 'actions'} keys %$fields;
+    };
+    $object = $self->_get_object_fields($object, ['multistate', @actions_depends_on_db_fields]);
 
     throw Exception::Multistate::NotFound unless defined($object);
 
