@@ -101,7 +101,7 @@ sub get_action_log_entries {
     } elsif (ref($id_elem) ne 'HASH' and @$fields == 1) {
         $id->{$fields->[0]} = $id_elem;
     } elsif (ref($id_elem) eq 'HASH') {
-        $id->{"elem_$_"} = $id_elem->{$_} foreach keys($id_elem);
+        $id->{"elem_$_"} = $id_elem->{$_} foreach keys(%$id_elem);
         throw gettext(
             'Cannot find fields. Need (%s), got (%s).',
             join(', ', @{$self->_action_log_db_table->{'elem_table_pk'}}),
