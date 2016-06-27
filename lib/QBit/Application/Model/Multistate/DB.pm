@@ -67,8 +67,10 @@ sub do_action {
             throw Exception::Multistate::BadAction gettext('Cannot do action "%s".', $action)
               unless $self->check_action($object, $action);
 
-            $new_multistate = $self->get_multistates()->{$object->{'multistate'}}{$action};
+            my $old_multistate = $object->{'multistate'};
+            $new_multistate = $self->get_multistates()->{$old_multistate}{$action};
             $self->_multistate_db_table()->edit($pk, {multistate => $new_multistate});
+            $object->{'multistate'} = $new_multistate;
 
             my $on_action_name = "on_action_$action";
             $self->$on_action_name($object, %opts) if $self->can($on_action_name);
@@ -77,7 +79,7 @@ sub do_action {
                 {
                     user_id => $self->get_option('cur_user', {})->{'id'},
                     (map {("elem_$_" => $object->{$_})} @{$self->_multistate_db_table->primary_key}),
-                    old_multistate => $object->{'multistate'},
+                    old_multistate => $old_multistate,
                     action         => $action,
                     new_multistate => $new_multistate,
                     dt             => curdate(oformat => 'db_time'),
