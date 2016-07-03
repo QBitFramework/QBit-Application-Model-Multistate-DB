@@ -1,3 +1,9 @@
+libqbit-application-model-multistate-db-perl (0.006) raring; urgency=low
+
+  * change multistate
+
+ -- Igor Sverdlov <igor-sverdlov@mail.ru>  Sun, 03 Jul 2016 18:33:41 +0300
+
 libqbit-application-model-multistate-db-perl (0.005) raring; urgency=low
 
   * Fix warning "keys on reference is experimental"
