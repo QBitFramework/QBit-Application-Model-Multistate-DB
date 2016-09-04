@@ -1,3 +1,9 @@
+libqbit-application-model-multistate-db-perl (0.007) raring; urgency=low
+
+  * upload to cpan
+
+ -- Igor Sverdlov <igor-sverdlov@mail.ru>  Sun, 04 Sep 2016 23:17:20 +0300
+
 libqbit-application-model-multistate-db-perl (0.006) raring; urgency=low
 
   * change multistate
