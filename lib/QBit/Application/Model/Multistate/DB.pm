@@ -169,3 +169,33 @@ sub _get {
 sub _action_log_db_table { }
 
 TRUE;
+
+__END__
+
+=encoding utf8
+
+=head1 Name
+ 
+QBit::Application::Model::Multistate::DB - Class for working with multistates DB entries.
+ 
+=head1 GitHub
+
+https://github.com/QBitFramework/QBit-Application-Model-Multistate-DB
+
+=head1 Install
+
+=over
+ 
+=item *
+
+cpanm QBit::Application::Model::Multistate::DB
+
+=item *
+
+apt-get install libqbit-application-model-multistate-db-perl (http://perlhub.ru/)
+
+=back
+
+For more information. please, see code.
+
+=cut
