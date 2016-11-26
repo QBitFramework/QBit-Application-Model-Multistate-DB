@@ -72,9 +72,6 @@ sub do_action {
             $self->_multistate_db_table()->edit($pk, {multistate => $new_multistate});
             $object->{'multistate'} = $new_multistate;
 
-            my $on_action_name = "on_action_$action";
-            $self->$on_action_name($object, %opts) if $self->can($on_action_name);
-
             $self->_action_log_db_table()->add(
                 {
                     user_id => $self->get_option('cur_user', {})->{'id'},
@@ -86,6 +83,9 @@ sub do_action {
                     ($self->_action_log_db_table()->have_fields('opts') ? (opts => to_json(\%opts)) : ())
                 }
             ) if $self->_action_log_db_table();
+
+            my $on_action_name = "on_action_$action";
+            $self->$on_action_name($object, %opts) if $self->can($on_action_name);
         }
     );
 
@@ -138,6 +138,14 @@ sub get_action_log_entries {
     return $res;
 }
 
+sub get_object_fields {
+    my ($self, $object, $fields, %opts) = @_;
+
+    push(@$fields, keys(%$object)) if ref($object) eq 'HASH';
+
+    return $self->_get_object_fields($object, $fields, %opts);
+}
+
 sub _get_object_fields {
     my ($self, $object, $fields, %opts) = @_;
 
@@ -149,16 +157,14 @@ sub _get_object_fields {
             join(', ', @{$self->_multistate_db_table->primary_key}),
             join(', ', keys(%$object))
         ) if grep {!exists($object->{$_})} @{$self->_multistate_db_table->primary_key};
-
-        push(@$fields, keys(%$object));
     }
 
-    my %uniq_fields = map {$_ => TRUE} @$fields, @{$self->_multistate_db_table->primary_key};
+    push(@$fields, @{$self->_multistate_db_table->primary_key});
 
     return $self->_get(
         $object,
         for_update => $opts{'for_update'},
-        fields     => [keys(%uniq_fields)],
+        fields     => array_uniq(@$fields),
     );
 }
 
