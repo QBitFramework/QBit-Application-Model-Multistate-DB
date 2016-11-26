@@ -53,6 +53,7 @@ sub do_action {
       : $object;
 
     my $new_multistate;
+    my @result;
 
     $self->_multistate_db_table->db->transaction(
         sub {
@@ -73,7 +74,7 @@ sub do_action {
             $object->{'multistate'} = $new_multistate;
 
             my $on_action_name = "on_action_$action";
-            $self->$on_action_name($object, %opts) if $self->can($on_action_name);
+            @result = $self->$on_action_name($object, %opts) if $self->can($on_action_name);
 
             $self->_action_log_db_table()->add(
                 {
@@ -89,7 +90,7 @@ sub do_action {
         }
     );
 
-    return $new_multistate;
+    return wantarray ? ($new_multistate, @result) : $new_multistate;
 }
 
 sub get_action_log_entries {
