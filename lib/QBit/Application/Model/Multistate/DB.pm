@@ -142,21 +142,23 @@ sub _get_object_fields {
     my ($self, $object, $fields, %opts) = @_;
 
     if (ref($object) eq 'HASH') {
-        return $object if !$opts{'for_update'} && @{arrays_intersection([keys(%$object)], $fields)} == @$fields;
+        return $object if !$opts{'for_update'} && scalar(grep {exists($object->{$_})} @$fields) == @$fields;
 
         throw gettext(
             'Cannot find PK fields. Need (%s), got (%s).',
             join(', ', @{$self->_multistate_db_table->primary_key}),
             join(', ', keys(%$object))
         ) if grep {!exists($object->{$_})} @{$self->_multistate_db_table->primary_key};
+
+        push(@$fields, keys(%$object));
     }
 
-    push(@$fields, @{$self->_multistate_db_table->primary_key});
+    my %uniq_fields = map {$_ => TRUE} @$fields, @{$self->_multistate_db_table->primary_key};
 
     return $self->_get(
         $object,
         for_update => $opts{'for_update'},
-        fields     => array_uniq(@$fields)
+        fields     => [keys(%uniq_fields)],
     );
 }
 
