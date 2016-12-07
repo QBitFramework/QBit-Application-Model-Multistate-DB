@@ -1,14 +1,11 @@
-package Exception::Multistate::BadAction;
-use base qw(Exception::Multistate);
-
-package Exception::Multistate::NotFound;
-use base qw(Exception::Multistate);
-
 package QBit::Application::Model::Multistate::DB;
 
 use qbit;
 
 use base qw(QBit::Application::Model::Multistate);
+
+use Exception::Multistate::BadAction;
+use Exception::Multistate::NotFound;
 
 __PACKAGE__->abstract_methods(
     qw(
