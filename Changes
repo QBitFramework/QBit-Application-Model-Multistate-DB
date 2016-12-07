@@ -1,10 +1,34 @@
 ==================================================
-Changes from 2015-12-02 00:00:00 +0000 to present.
+Changes from 2015-12-08 00:00:00 +0000 to present.
 ==================================================
 
 ------------------------------------------
-version 0.008 at 2016-12-01 19:05:28 +0000
+version 0.009 at 2016-12-07 19:35:33 +0000
 ------------------------------------------
+
+  Change: 0a807d94a3c573081112e4bd648109246c2a50d9
+  Author: Igor <igor-sverdlov@mail.ru>
+  Date : 2016-12-07 22:34:58 +0000
+
+    Merge pull request #7 from Madskill/fix_depends
+
+    fix depends 
+
+  Change: 497e0667c813ed427e32b4f3479084e6a72746d6
+  Author: Igor Sverdlov <igor-sverdlov@mail.ru>
+  Date : 2016-12-07 22:33:28 +0000
+
+    fix depends 
+
+------------------------------------------
+version 0.008 at 2016-12-01 19:05:36 +0000
+------------------------------------------
+
+  Change: 403515c4b43275614d3bb9138eed8f7710387884
+  Author: Igor Sverdlov <igor-sverdlov@mail.ru>
+  Date : 2016-12-01 22:05:36 +0000
+
+    Version 0.008 
 
   Change: 4dd53f537794641b6075afda2c93fc6d7024d095
   Author: Igor <igor-sverdlov@mail.ru>
@@ -91,5 +115,5 @@ version 0.005 at 2016-01-31 10:28:58 +0000
     Fix warning "keys on reference is experimental" 
 
 ================================================
-Plus 4 releases after 2015-12-02 00:00:00 +0000.
+Plus 4 releases after 2015-12-08 00:00:00 +0000.
 ================================================

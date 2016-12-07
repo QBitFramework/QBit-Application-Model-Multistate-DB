@@ -13,4 +13,6 @@ debian/control
 debian/copyright
 debian/rules
 dist.ini
+lib/Exception/Multistate/BadAction.pm
+lib/Exception/Multistate/NotFound.pm
 lib/QBit/Application/Model/Multistate/DB.pm

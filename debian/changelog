@@ -1,3 +1,9 @@
+libqbit-application-model-multistate-db-perl (0.009) raring; urgency=low
+
+  * fix depends
+
+ -- Igor Sverdlov <igor-sverdlov@mail.ru>  Wed, 07 Dec 2016 22:35:33 +0300
+
 libqbit-application-model-multistate-db-perl (0.008) raring; urgency=low
 
   * fix logs
