@@ -69,9 +69,6 @@ sub do_action {
             $self->_multistate_db_table()->edit($pk, {multistate => $new_multistate});
             $object->{'multistate'} = $new_multistate;
 
-            my $on_action_name = "on_action_$action";
-            $self->$on_action_name($object, %opts) if $self->can($on_action_name);
-
             $self->_action_log_db_table()->add(
                 {
                     user_id => $self->get_option('cur_user', {})->{'id'},
@@ -83,6 +80,9 @@ sub do_action {
                     ($self->_action_log_db_table()->have_fields('opts') ? (opts => to_json(\%opts)) : ())
                 }
             ) if $self->_action_log_db_table();
+
+            my $on_action_name = "on_action_$action";
+            $self->$on_action_name($object, %opts) if $self->can($on_action_name);
         }
     );
 
@@ -135,11 +135,19 @@ sub get_action_log_entries {
     return $res;
 }
 
+sub get_object_fields {
+    my ($self, $object, $fields, %opts) = @_;
+
+    push(@$fields, keys(%$object)) if ref($object) eq 'HASH';
+
+    return $self->_get_object_fields($object, $fields, %opts);
+}
+
 sub _get_object_fields {
     my ($self, $object, $fields, %opts) = @_;
 
     if (ref($object) eq 'HASH') {
-        return $object if !$opts{'for_update'} && @{arrays_intersection([keys(%$object)], $fields)} == @$fields;
+        return $object if !$opts{'for_update'} && scalar(grep {exists($object->{$_})} @$fields) == @$fields;
 
         throw gettext(
             'Cannot find PK fields. Need (%s), got (%s).',
@@ -153,7 +161,7 @@ sub _get_object_fields {
     return $self->_get(
         $object,
         for_update => $opts{'for_update'},
-        fields     => array_uniq(@$fields)
+        fields     => array_uniq(@$fields),
     );
 }
 
@@ -166,3 +174,33 @@ sub _get {
 sub _action_log_db_table { }
 
 TRUE;
+
+__END__
+
+=encoding utf8
+
+=head1 Name
+ 
+QBit::Application::Model::Multistate::DB - Class for working with multistates DB entries.
+ 
+=head1 GitHub
+
+https://github.com/QBitFramework/QBit-Application-Model-Multistate-DB
+
+=head1 Install
+
+=over
+ 
+=item *
+
+cpanm QBit::Application::Model::Multistate::DB
+
+=item *
+
+apt-get install libqbit-application-model-multistate-db-perl (http://perlhub.ru/)
+
+=back
+
+For more information. please, see code.
+
+=cut
